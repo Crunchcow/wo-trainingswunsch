@@ -1,0 +1,29 @@
+name: Publish Trainingsplan
+on:
+  push:
+    paths:
+      - "site/**"
+      - "data/**"
+      - "tools/**"
+  workflow_dispatch: {}
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install pyyaml
+      - name: Build trainingsplan.json
+        run: python tools/plan_to_json.py
+      - name: Upload Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with: { path: site }
+  deploy:
+    needs: build
+    permissions: { pages: write, id-token: write }
+    environment: { name: github-pages }
+    runs-on: ubuntu-latest
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
