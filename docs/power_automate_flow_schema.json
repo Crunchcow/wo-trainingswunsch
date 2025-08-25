@@ -1,0 +1,17 @@
+{
+  "type": "object",
+  "properties": {
+    "team": { "type": "string" },
+    "email": { "type": "string" },
+    "wochentag": { "type": "string" },
+    "start": { "type": "string" },
+    "ende": { "type": "string" },
+    "platzpraeferenz": { "type": "string" },
+    "halb": { "type": "string" },
+    "pin": { "type": "string" },
+    "kommentar": { "type": "string" },
+    "source": { "type": "string" },
+    "timestamp_client": { "type": "string" }
+  },
+  "required": ["team","email","wochentag","start","ende","platzpraeferenz","halb","pin"]
+}
