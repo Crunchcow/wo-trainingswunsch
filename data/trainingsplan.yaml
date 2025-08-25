@@ -1,0 +1,35 @@
+plaetze:
+  - id: Rasen
+    halves: true
+  - id: Kunstrasen
+    halves: true
+  - id: Wigger_Arena
+    halves: false
+
+tage: ["Mo","Di","Mi","Do","Fr"]
+
+slots:
+  - team: U13
+    tag: Di
+    start: "17:00"
+    ende: "18:30"
+    platz: Kunstrasen
+    halb: A
+  - team: 1_Herren
+    tag: Di
+    start: "19:30"
+    ende: "21:00"
+    platz: Rasen
+    halb: A
+  - team: Damen
+    tag: Do
+    start: "19:00"
+    ende: "20:30"
+    platz: Kunstrasen
+    halb: B
+  - team: U9
+    tag: Mo
+    start: "16:00"
+    ende: "17:15"
+    platz: Wigger_Arena
+    halb: A
