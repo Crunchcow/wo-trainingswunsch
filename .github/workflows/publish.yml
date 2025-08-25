@@ -6,6 +6,7 @@ on:
       - "data/**"
       - "tools/**"
   workflow_dispatch: {}
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -14,7 +15,7 @@ jobs:
       - uses: actions/setup-python@v5
         with: { python-version: "3.11" }
       - run: pip install pyyaml
-      - name: Build trainingsplan.json
+      - name: Build trainingsplan.json (merge YAML + Sperren)
         run: python tools/plan_to_json.py
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
