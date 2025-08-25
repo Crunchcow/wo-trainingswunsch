@@ -1,31 +1,44 @@
 import yaml, json, os, sys
-from datetime import datetime
 
 def load_yaml(path):
     if not os.path.exists(path):
         return {}
-    with open(path, encoding="utf-8") as f:
-        return yaml.safe_load(f) or {}
+    try:
+        with open(path, encoding="utf-8") as f:
+            return yaml.safe_load(f) or {}
+    except yaml.YAMLError as e:
+        print(f"\nYAML parse error in {path}:\n{e}\n")
+        # Hinweise auf typische Copy&Paste-Fehler (Backticks/Codefences)
+        with open(path, encoding="utf-8") as f2:
+            for i, line in enumerate(f2.read().splitlines(), start=1):
+                if "`" in line or line.strip().startswith("```"):
+                    print(f"Hint: possible markdown fence/backtick on line {i}: {line}")
+        sys.exit(1)
 
 plan = load_yaml("data/trainingsplan.yaml")
 sperren = load_yaml("data/sperren.yaml")
 
-# Merge Sperren in den Plan
-plan["sperren"] = {
-    "weekly": sperren.get("weekly", []),
-    "once":   sperren.get("once",   []),
-}
-
-# Minimal-Validierung
+# Struktur absichern
+if not isinstance(plan, dict):
+    print("Error: data/trainingsplan.yaml must parse to a mapping (dict).")
+    sys.exit(1)
 plan.setdefault("plaetze", [])
 plan.setdefault("tage", [])
 plan.setdefault("slots", [])
 
+# Sperren mergen (falls Datei fehlt/leer)
+if not isinstance(sperren, dict):
+    sperren = {}
+plan["sperren"] = {
+    "weekly": sperren.get("weekly") or [],
+    "once":   sperren.get("once")   or [],
+}
+
 os.makedirs("site", exist_ok=True)
-out_path = "site/trainingsplan.json"
-with open(out_path, "w", encoding="utf-8") as f:
+with open("site/trainingsplan.json", "w", encoding="utf-8") as f:
     json.dump(plan, f, ensure_ascii=False, indent=2)
 
-print(f"Wrote {out_path} ({len(plan['slots'])} slots, "
-      f"{len(plan['sperren']['weekly'])} weekly sperren, "
-      f"{len(plan['sperren']['once'])} once)")
+print(
+    f"Wrote site/trainingsplan.json "
+    f"(slots={len(plan['slots'])}, weekly_sperren={len(plan['sperren']['weekly'])}, once_sperren={len(plan['sperren']['once'])})"
+)
