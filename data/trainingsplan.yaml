@@ -1,8 +1,3 @@
-
----
-
-### `data/trainingsplan.yaml`
-```yaml
 plaetze:
   - id: Rasen
     halves: true
@@ -13,7 +8,6 @@ plaetze:
 
 tage: ["Mo", "Di", "Mi", "Do", "Fr"]
 
-# Bereits fest vergebene/belegte Trainingsslots (Beispiele)
 slots:
   - team: U13
     tag: Di
