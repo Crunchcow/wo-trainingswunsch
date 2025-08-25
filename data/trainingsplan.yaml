@@ -1,3 +1,8 @@
+
+---
+
+### `data/trainingsplan.yaml`
+```yaml
 plaetze:
   - id: Rasen
     halves: true
@@ -6,30 +11,34 @@ plaetze:
   - id: Wigger_Arena
     halves: false
 
-tage: ["Mo","Di","Mi","Do","Fr"]
+tage: ["Mo", "Di", "Mi", "Do", "Fr"]
 
+# Bereits fest vergebene/belegte Trainingsslots (Beispiele)
 slots:
   - team: U13
     tag: Di
     start: "17:00"
-    ende: "18:30"
+    ende:  "18:30"
     platz: Kunstrasen
-    halb: A
+    halb:  A
+
   - team: 1_Herren
     tag: Di
     start: "19:30"
-    ende: "21:00"
+    ende:  "21:00"
     platz: Rasen
-    halb: A
+    halb:  A
+
   - team: Damen
     tag: Do
     start: "19:00"
-    ende: "20:30"
+    ende:  "20:30"
     platz: Kunstrasen
-    halb: B
+    halb:  B
+
   - team: U9
     tag: Mo
     start: "16:00"
-    ende: "17:15"
+    ende:  "17:15"
     platz: Wigger_Arena
-    halb: A
+    halb:  A
