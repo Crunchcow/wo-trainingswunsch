@@ -1,0 +1,94 @@
+<!DOCTYPE html><html lang="de"><head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Trainingswunsch – Saison 2025/26</title>
+<style>
+:root{--bg:#0b0d10;--fg:#e8edf2;--muted:#a7b0ba;--brand:#c4002b;--ok:#1cbf73;--card:#11151a;--line:#26303a}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial,sans-serif;background:var(--bg);color:var(--fg)}
+header{padding:18px 20px;border-bottom:1px solid var(--line);position:sticky;top:0;background:linear-gradient(180deg,rgba(11,13,16,.95),rgba(11,13,16,.85));backdrop-filter:blur(6px)}
+h1{margin:0;font-size:20px}
+.wrap{max-width:1100px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:1.2fr .8fr;gap:20px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 6px 18px rgba(0,0,0,.2)}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}.tab{padding:8px 10px;border:1px solid var(--line);border-radius:10px;background:#0f141a;cursor:pointer;font-size:14px;color:var(--muted)}.tab.active{background:var(--brand);color:#fff;border-color:transparent}
+.legend{display:flex;gap:14px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:6px 0 14px}.badge{display:inline-flex;align-items:center;gap:8px}.dot{width:12px;height:12px;border-radius:3px;background:var(--line);border:1px solid #3a4653}.dot.free{background:rgba(28,191,115,.2);border-color:#237f59}.dot.busy{background:rgba(196,0,43,.25);border-color:#7a1228}
+.dayview{display:flex;flex-direction:column;gap:14px}.pitch{border:1px dashed #334050;border-radius:14px;padding:12px}.pitch>.title{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:14px;color:var(--muted)}
+.field{display:grid;grid-template-columns:1fr 1fr;gap:10px}.half{position:relative;border-radius:12px;background:radial-gradient(100% 120% at 30% 20%,#0e171f 0%,#0b1117 52%,#091016 100%);min-height:84px;border:1px solid #203042;overflow:hidden}.half::before{content:"";position:absolute;inset:8px;border:1px dashed #32506a;border-radius:10px;opacity:.9}.half .label{position:absolute;top:8px;left:10px;font-size:12px;color:#8fa6bb}
+.slot{position:relative;margin:30px 10px 10px;padding:8px 10px;border-radius:10px;background:rgba(196,0,43,.22);border:1px solid rgba(196,0,43,.45);font-size:13px}.slot .time{font-weight:600}
+.inline{display:flex;gap:10px;align-items:center;flex-wrap:wrap}form{display:grid;gap:10px}label{font-size:12px;color:var(--muted)}
+input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:#0f141a;color:var(--fg);font-size:14px}
+textarea{min-height:80px;resize:vertical}.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{background:var(--brand);color:#fff;padding:12px 14px;border:0;border-radius:12px;font-weight:600;cursor:pointer}.btn:disabled{opacity:.55;cursor:not-allowed}
+.note{font-size:12px;color:var(--muted)}.ok{color:var(--ok)}.err{color:#ff6666}
+@media (max-width:920px){.wrap{grid-template-columns:1fr}}
+</style></head><body>
+<header><h1>Trainingswunsch – Saison 2025/26</h1><div class="note">Frontend: GitHub Pages · Backend: Power Automate HTTP-Flow (CORS + PIN)</div></header>
+<main class="wrap">
+<section class="card">
+  <div id="tabs" class="tabs"></div>
+  <div class="legend"><span class="badge"><span class="dot busy"></span>belegt</span><span class="badge"><span class="dot free"></span>frei</span><span class="note">Halbfelder A/B, Uhrzeiten</span></div>
+  <div id="dayview" class="dayview"></div>
+</section>
+<section class="card">
+  <h2 style="margin:0 0 8px;font-size:18px">Wunsch einreichen</h2>
+  <p class="note">Gilt für die ganze Saison. Wir prüfen und melden uns.</p>
+  <form id="wishForm">
+    <div class="row"><div><label for="team">Team</label><input id="team" name="team" placeholder="z. B. U13, 1. Herren" required></div>
+      <div><label for="email">Kontakt-E-Mail</label><input id="email" name="email" type="email" placeholder="name@verein.de" required></div></div>
+    <div class="row"><div><label for="tag">Wochentag</label><select id="tag" name="tag" required></select></div>
+      <div class="inline"><div style="flex:1"><label for="start">Start</label><input id="start" name="start" type="time" value="17:00" required></div>
+        <div style="flex:1"><label for="ende">Ende</label><input id="ende" name="ende" type="time" value="18:30" required></div></div></div>
+    <div class="row"><div><label for="platz">Platz-Präferenz</label><select id="platz" name="platz" required></select></div>
+      <div><label for="halb">Halbfeld</label><select id="halb" name="halb" required><option value="A">A</option><option value="B">B</option></select></div></div>
+    <div class="row"><div><label for="pin">Coach-PIN</label><input id="pin" name="pin" type="password" inputmode="numeric" minlength="4" maxlength="8" placeholder="Team-PIN" required></div>
+      <div><label for="kommentar">Kommentar (optional)</label><input id="kommentar" name="kommentar" placeholder="Alternative Zeiten, Trainer …"></div></div>
+    <div class="note">Mit dem Absenden stimmst du der Verarbeitung gem. Datenschutz zu.</div>
+    <div class="inline"><button class="btn" id="submitBtn" type="submit">Wunsch absenden</button><span id="status" class="note"></span></div>
+  </form>
+</section>
+</main>
+<script>
+const SAMPLE={plaetze:[{id:"Rasen",halves:true},{id:"Kunstrasen",halves:true},{id:"Wigger_Arena",halves:false}],slots:[{team:"U13",tag:"Di",start:"17:00",ende:"18:30",platz:"Kunstrasen",halb:"A"},{team:"1. Herren",tag:"Di",start:"19:30",ende:"21:00",platz:"Rasen",halb:"A"},{team:"Damen",tag:"Do",start:"19:00",ende:"20:30",platz:"Kunstrasen",halb:"B"},{team:"U9",tag:"Mo",start:"16:00",ende:"17:15",platz:"Wigger_Arena",halb:"A"}],tage:["Mo","Di","Mi","Do","Fr"]};
+let PLAN=JSON.parse(JSON.stringify(SAMPLE));
+fetch('trainingsplan.json',{cache:'no-store'}).then(r=>r.ok?r.json():Promise.reject()).then(j=>{PLAN=j;init()}).catch(()=>init());
+
+function init(){
+  const tabs=document.getElementById('tabs'); tabs.innerHTML='';
+  PLAN.tage.forEach((t,i)=>{const b=document.createElement('button'); b.className='tab'+(i===0?' active':''); b.textContent=t;
+    b.onclick=()=>{[...tabs.children].forEach(c=>c.classList.remove('active')); b.classList.add('active'); renderDay(t)}; tabs.appendChild(b)});
+  const tagSel=document.getElementById('tag'); PLAN.tage.forEach(t=>{const o=document.createElement('option'); o.value=t;o.textContent=t;tagSel.appendChild(o)});
+  const platzSel=document.getElementById('platz'); PLAN.plaetze.forEach(p=>{const o=document.createElement('option'); o.value=p.id;o.textContent=p.id;platzSel.appendChild(o)});
+  renderDay(PLAN.tage[0]);
+  document.getElementById('wishForm').addEventListener('submit',onSubmit);
+}
+
+function renderDay(tag){
+  const view=document.getElementById('dayview'); view.innerHTML='';
+  PLAN.plaetze.forEach(p=>{
+    const pitch=document.createElement('div'); pitch.className='pitch';
+    pitch.innerHTML=`<div class="title"><strong>${p.id}</strong><span class="note">${p.halves?'Halben A/B':'Ganzfeld'}</span></div>`;
+    const field=document.createElement('div'); field.className='field';
+    const halves=p.halves?['A','B']:['A'];
+    halves.forEach(h=>{
+      const half=document.createElement('div'); half.className='half';
+      const label=document.createElement('div'); label.className='label'; label.textContent=p.halves?`Hälfte ${h}`:'Feld'; half.appendChild(label);
+      const slots=PLAN.slots.filter(s=>s.tag===tag && s.platz===p.id && (p.halves ? s.halb===h : true));
+      if(slots.length===0){const free=document.createElement('div'); free.className='slot'; free.style.background='rgba(28,191,115,.18)'; free.style.borderColor='rgba(28,191,115,.45)'; free.innerHTML=`<span class="time">– frei –</span>`; half.appendChild(free)}
+      else {slots.forEach(s=>{const el=document.createElement('div'); el.className='slot'; el.innerHTML=`<span class="time">${s.start}–${s.ende}</span> · <strong>${s.team}</strong>`; half.appendChild(el)})}
+      field.appendChild(half)
+    });
+    pitch.appendChild(field); view.appendChild(pitch)
+  })
+}
+
+async function onSubmit(ev){
+  ev.preventDefault();
+  const btn=document.getElementById('submitBtn'); const status=document.getElementById('status'); btn.disabled=true; status.textContent='Sende…'; status.className='note';
+  const payload={team:team.value.trim(), email:email.value.trim(), wochentag:tag.value, start:start.value, ende:ende.value, platzpraeferenz:platz.value, halb:halb.value, pin:pin.value.trim(), kommentar:kommentar.value.trim(), source:'github-pages', timestamp_client:new Date().toISOString()};
+  const ENDPOINT='REPLACE_WITH_YOUR_FLOW_URL'; // Power Automate HTTP-Endpoint
+  try{const res=await fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload),mode:'cors'});
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    status.textContent='Danke! Wunsch ist eingegangen.'; status.className='note ok'; ev.target.reset()
+  }catch(e){status.textContent='Fehler beim Senden. Bitte später erneut versuchen.'; status.className='note err'}
+  finally{btn.disabled=false}
+}
+</script>
+</body></html>
