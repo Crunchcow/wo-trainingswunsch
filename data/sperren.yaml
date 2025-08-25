@@ -1,0 +1,22 @@
+weekly:
+  - tag: "Mi"
+    start: "18:00"
+    ende:  "19:00"
+    platz: "Rasen"
+    halb:  "A"
+    grund: "Platzpflege"
+
+  - tag: "Fr"
+    start: "17:30"
+    ende:  "20:00"
+    platz: "Wigger_Arena"
+    grund: "Halle teilgesperrt"
+
+# Datumsspezifische, einmalige Sperren (Optional – die Wochenansicht zeigt sie nur informativ an.)
+once:
+  - datum: "2025-09-12"
+    start: "18:00"
+    ende:  "21:00"
+    platz: "Kunstrasen"
+    halb:  "B"
+    grund: "Testspiel U17"
