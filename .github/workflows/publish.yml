@@ -1,30 +1,56 @@
 name: Publish Trainingsplan
+
 on:
   push:
+    branches: [ main ]              # ggf. auf "master" anpassen
     paths:
       - "site/**"
       - "data/**"
       - "tools/**"
   workflow_dispatch: {}
 
+# Wichtig für GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Verhindert parallele Deploys
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-python@v5
-        with: { python-version: "3.11" }
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
       - run: pip install pyyaml
+
       - name: Build trainingsplan.json (merge YAML + Sperren)
-        run: python tools/plan_to_json.py
+        run: |
+          python tools/plan_to_json.py
+          # Jekyll sicher deaktivieren (sonst ignoriert Pages Ordner/Dateien mit Unterstrich)
+          touch site/.nojekyll
+
       - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
-        with: { path: site }
+        with:
+          path: site
+
   deploy:
     needs: build
-    permissions: { pages: write, id-token: write }
-    environment: { name: github-pages }
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      # zeigt dir die fertige URL direkt im Run
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
